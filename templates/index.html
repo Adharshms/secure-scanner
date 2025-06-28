@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Web Security Scanner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #0f172a; 
+      color: #e2e8f0;  
+    }
+
+    .header-section {
+      background-color: #1e293b;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #334155;
+    }
+
+    .header-section nav a {
+      color: #e2e8f0;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .header-section nav a:hover {
+      color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+  
+  <header class="header-section">
+    <h2 class="text-lg font-semibold text-sky-400">WebSec</h2>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  
+  <main class="flex justify-center items-center min-h-screen">
+    <div class="bg-black p-8 rounded-xl shadow-lg w-full max-w-lg border border-slate-700">
+      <h1 class="text-2xl font-bold text-center text-sky-400 mb-6"> Web Security Scanner</h1>
+
+      <form method="POST" class="space-y-4">
+        <input name="url" type="url" placeholder="https://example.com"
+               class="w-full p-3 rounded border border-slate-600 bg-slate-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500"
+               required />
+        <button type="submit"
+                class="w-full bg-sky-500 hover:bg-sky-600 text-white font-medium py-2 px-4 rounded transition">
+          Scan Website
+        </button>
+      </form>
+
+      {% if result %}
+        <div class="mt-6 bg-slate-800 p-4 rounded-lg">
+          <h2 class="text-lg font-semibold text-sky-300 mb-2">🔍 Scan Results:</h2>
+
+          {% if result.error %}
+            <p class="text-red-400 font-medium">Error: {{ result.error }}</p>
+          {% else %}
+            <ul class="list-disc pl-5 space-y-1 text-slate-200">
+              <li><strong>HTTPS:</strong> {{ result.https }}</li>
+              {% for key, value in result.headers.items() %}
+                <li><strong>{{ key }}:</strong> {{ value }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </main>
+</body>
+</html>
